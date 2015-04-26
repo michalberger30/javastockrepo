@@ -15,9 +15,7 @@ public class Stock {
 	private float ask;
 	private float bid;
 	private Date date;
-	@SuppressWarnings("unused")
 	private int recommendation;
-	@SuppressWarnings("unused")
 	private int stockQuantity;
 	
 	
@@ -60,6 +58,22 @@ public class Stock {
 		String dateStr = dateFt.format(date);
 		String result = new String("<b> Stock symbol is: </b>" + getSymbol()+"<b> ask: </b>"+getAsk() +"<b> Bid: </b>"+getBid()+"<b> Date: </b>"+ dateStr);
 		return result;
+	}
+
+	public int getRecommendation() {
+		return recommendation;
+	}
+
+	public void setRecommendation(int recommendation) {
+		this.recommendation = recommendation;
+	}
+
+	public int getStockQuantity() {
+		return stockQuantity;
+	}
+
+	public void setStockQuantity(int stockQuantity) {
+		this.stockQuantity = stockQuantity;
 	}
 }
 	

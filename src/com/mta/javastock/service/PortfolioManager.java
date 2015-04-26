@@ -10,7 +10,7 @@ import com.mta.javastock.model.Portfolio;
 public class PortfolioManager {
 
 	public Portfolio getPortfolio(){
-		Portfolio portfolio = new Portfolio("portfolio");
+		Portfolio portfolio = new Portfolio();
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(2014, 10, 15);
@@ -26,8 +26,6 @@ public class PortfolioManager {
 		portfolio.addStock(s2);
 		portfolio.addStock(s3);
 		
-		return portfolio;
-		
-	}
-	
+		return portfolio;	
+	}	
 }

@@ -12,7 +12,7 @@ import com.mta.javastock.Stock;
 public class Portfolio {
 	
 	private String title;
-	public final static int MAX_PORTFOLIO_SIZE = 5;
+	private final static int MAX_PORTFOLIO_SIZE = 5;
 	private Stock[] stocks;
 	private int portfolioSize;
 	
@@ -26,8 +26,8 @@ public class Portfolio {
 	 */
 	
 	
-	public Portfolio(String title) {
-		this.title = title;
+	public Portfolio() {
+		this.title = "protfolio";
 		this.stocks = new Stock[MAX_PORTFOLIO_SIZE];
 		this.portfolioSize = 0;
 		
@@ -36,11 +36,27 @@ public class Portfolio {
 
 	public void addStock(Stock stock){ 
 		
-		if(portfolioSize<MAX_PORTFOLIO_SIZE)
+		if(portfolioSize<MAX_PORTFOLIO_SIZE && stock != null)
 		{
 			stocks[this.portfolioSize] = stock;
 			portfolioSize++;
 		}
+		else{
+			System.out.println("Sorry, portfolio is full, or stock is null");
+		}
+	}
+	
+	public String getHtmlString(){
+		
+		String res = new String();
+		res = res+"<h1>"+getTitle()+"</h1> <br>";
+		
+		for(int i=0; i<portfolioSize;i++)
+		{
+			res = res + stocks[i].getHtmlDescription()+"<br>";
+		}
+		
+		return res;	
 	}
 	
 	public Stock[] getStock()
@@ -69,16 +85,5 @@ public class Portfolio {
 	public static int getMaxPortfolioSize() {
 		return MAX_PORTFOLIO_SIZE;
 	}
-	public String getHtmlString(){
-		
-		String res = new String();
-		res = res+"<h1>"+this.title+"</h1> <br>";
-		
-		for(int i=0; i<portfolioSize;i++)
-		{
-			res = res + stocks[i].getHtmlDescription()+"<br>";
-		}
-		
-		return res;	
-	}
+
 }
