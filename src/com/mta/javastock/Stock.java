@@ -1,15 +1,25 @@
 package com.mta.javastock;
 
 import java.util.Date;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class Stock {
+	public final static int BUY = 0;
+	public final static int SELL = 1;
+	public final static int REMOVE = 2;
+	public final static int HOLD = 3;
+	
+	
 	private String symbol;
 	private float ask;
 	private float bid;
 	private Date date;
+	@SuppressWarnings("unused")
+	private int recommendation;
+	@SuppressWarnings("unused")
+	private int stockQuantity;
+	
 	
 	DateFormat dateFt = new SimpleDateFormat("MM/dd/yyyy");
 	
