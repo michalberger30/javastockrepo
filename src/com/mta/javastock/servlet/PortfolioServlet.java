@@ -22,4 +22,5 @@ public class PortfolioServlet extends HttpServlet{
 				
 		resp.getWriter().println(portfolio.getHtmlString());
 	}
+
 }
