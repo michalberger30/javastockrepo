@@ -1,4 +1,4 @@
-package com.mta.javastock;
+package com.mta.javastock.model;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -26,9 +26,17 @@ public class Stock {
 		this.ask = ask;
 		this.bid = bid;
 		this.date = date;
+		this.stockQuantity = 0;
+		this.recommendation = 0;
 		
 	}
 	
+	public Stock (Stock stock){
+		this (stock.getSymbol(), stock.getAsk(), stock.getBid(), new Date(stock.getDate().getTime()));
+		this.recommendation = stock.getRecommendation();
+		this.stockQuantity = stock.getStockQuantity();
+		}
+
 	public String getSymbol() {
 		return symbol;
 	}
@@ -53,7 +61,9 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
-	
+	/**
+	 * Get  get Html description with all portfolio details
+	 */
 	public String getHtmlDescription(){
 		String dateStr = dateFt.format(date);
 		String result = new String("<b> Stock symbol is: </b>" + getSymbol()+"<b> ask: </b>"+getAsk() +"<b> Bid: </b>"+getBid()+"<b> Date: </b>"+ dateStr);

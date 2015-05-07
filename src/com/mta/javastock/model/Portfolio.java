@@ -1,6 +1,5 @@
 package com.mta.javastock.model;
 
-import com.mta.javastock.Stock;
 /**
  * This class represents a Portfolio of Stocks.
  * where the maximum of stocks in the Portfolio is 5.
@@ -26,14 +25,27 @@ public class Portfolio {
 	 */
 	
 	
-	public Portfolio() {
-		this.title = "protfolio";
+	public Portfolio(String title) {
+		this.title = title;
 		this.stocks = new Stock[MAX_PORTFOLIO_SIZE];
 		this.portfolioSize = 0;
 		
 	}
 	
-
+	public Portfolio(Portfolio portfolio ) {
+		this(portfolio.getTitle());
+		this.portfolioSize = portfolio.getPortfolioSize();
+		for (int i=0;i<portfolioSize; i++)
+		{
+			this.stocks[i] = new Stock(portfolio.getStocks()[i]);
+		}
+	}
+	/**
+	 * Add Stock to the portfolio's array of stocks.
+	 * @author Michal Berger
+	 */
+	
+	
 	public void addStock(Stock stock){ 
 		
 		if(portfolioSize<MAX_PORTFOLIO_SIZE && stock != null)
@@ -44,6 +56,21 @@ public class Portfolio {
 		else{
 			System.out.println("Sorry, portfolio is full, or stock is null");
 		}
+	}
+	/**
+	 * Removes received stocked by symbol
+	 */
+	public void removeStock(String symbol)
+	{
+		for(int i = 0; i < portfolioSize; i++){
+			if(this.stocks[i].getSymbol().equals(symbol)){
+				if(i != portfolioSize-1 && portfolioSize > 1)
+					for(int j = i; j < portfolioSize-1; j++){
+						this.stocks[j] = new Stock(this.stocks[j+1]);
+					}
+			}
+		}
+		portfolioSize--;
 	}
 	
 	public String getHtmlString(){

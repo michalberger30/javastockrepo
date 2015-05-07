@@ -3,14 +3,14 @@ package com.mta.javastock.service;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mta.javastock.Stock;
 import com.mta.javastock.model.Portfolio;
+import com.mta.javastock.model.Stock;
 
 
 public class PortfolioManager {
 
 	public Portfolio getPortfolio(){
-		Portfolio portfolio = new Portfolio();
+		Portfolio portfolio = new Portfolio("portfolio");
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(2014, 10, 15);
