@@ -4,18 +4,15 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.mta.javastock.model.Portfolio.ALGO_RECOMMENDATION;
+
 public class Stock {
-	public final static int BUY = 0;
-	public final static int SELL = 1;
-	public final static int REMOVE = 2;
-	public final static int HOLD = 3;
-	
 	
 	private String symbol;
 	private float ask;
 	private float bid;
 	private Date date;
-	private int recommendation;
+	private ALGO_RECOMMENDATION recommendation;
 	private int stockQuantity;
 	
 	
@@ -27,7 +24,7 @@ public class Stock {
 		this.bid = bid;
 		this.date = date;
 		this.stockQuantity = 0;
-		this.recommendation = 0;
+		this.recommendation = ALGO_RECOMMENDATION.HOLD;
 		
 	}
 	
@@ -70,11 +67,11 @@ public class Stock {
 		return result;
 	}
 
-	public int getRecommendation() {
+	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}
 
-	public void setRecommendation(int recommendation) {
+	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
 		this.recommendation = recommendation;
 	}
 
