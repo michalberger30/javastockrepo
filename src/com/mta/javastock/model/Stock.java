@@ -1,87 +1,98 @@
 package com.mta.javastock.model;
-
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
+import com.mta.javastock.model.Portfolio;
 import com.mta.javastock.model.Portfolio.ALGO_RECOMMENDATION;
 
-public class Stock {
-	
-	private String symbol;
-	private float ask;
-	private float bid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.algo.model.StockInterface;
+/**
+ * This class describes the stocks content.
+ * @author Michal Berger
+ */
+public class Stock implements StockInterface{
+
+	private String symbol = null;
+	private Portfolio.ALGO_RECOMMENDATION recommendation;
+	private int stockQuantity = 0;
+	private float ask = 0;
+	private float bid = 0;
 	private Date date;
-	private ALGO_RECOMMENDATION recommendation;
-	private int stockQuantity;
+
 	
-	
-	DateFormat dateFt = new SimpleDateFormat("MM/dd/yyyy");
-	
-	public Stock(String symbol, float ask, float bid, Date date) {
+	public Stock (String symbol, float bid, float ask, Date date,ALGO_RECOMMENDATION recommendation){
 		this.symbol = symbol;
-		this.ask = ask;
 		this.bid = bid;
+		this.ask = ask;
 		this.date = date;
-		this.stockQuantity = 0;
+		this.recommendation = recommendation;
+	}
+	public Stock(Stock stock){
+		this(new String(stock.getSymbol()), stock.getBid(), stock.getAsk(),
+				new Date(stock.getDate().getTime()), stock.getRecommendation());
+		this.stockQuantity = stock.getStockQuantity();
+	}
+	public Stock(){
+		this.symbol = new String();
+		this.ask = 0;
+		this.bid = 0;
+		this.date = new Date();
 		this.recommendation = ALGO_RECOMMENDATION.HOLD;
-		
+		this.stockQuantity = 0;
 	}
 	
-	public Stock (Stock stock){
-		this (stock.getSymbol(), stock.getAsk(), stock.getBid(), new Date(stock.getDate().getTime()));
-		this.recommendation = stock.getRecommendation();
-		this.stockQuantity = stock.getStockQuantity();
-		}
-
+	/**
+	 * This method returns a string of the stock's details with a HTML code.
+	 * 
+	 */
+	
+	public String getHtmlDescription(){
+		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+ 		String dateStr = df.format(getDate());
+		
+		return "<b>Stock symbol</b> : " +this.getSymbol()+
+				", <b>ask</b> : " +this.getAsk()+
+				", <b>Bid</b>: "+this.getBid()+
+				", <b>Date</b>: "+dateStr+
+				", <b>quantity</b>: "+this.getStockQuantity();
+	}
+	public ALGO_RECOMMENDATION getRecommendation(){
+		return this.recommendation;
+	}
+	public void setRecommendation(ALGO_RECOMMENDATION recommendation){
+		this.recommendation = recommendation;
+	}
+	public int getStockQuantity(){
+		return this.stockQuantity;
+	}
+	public void setStockQuantity(int stockQuantity){
+		this.stockQuantity = stockQuantity;
+	}
+	
 	public String getSymbol() {
-		return symbol;
+		return this.symbol;
 	}
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 	public float getAsk() {
-		return ask;
+		return this.ask;
 	}
 	public void setAsk(float ask) {
 		this.ask = ask;
 	}
 	public float getBid() {
-		return bid;
+		return this.bid;
 	}
 	public void setBid(float bid) {
 		this.bid = bid;
 	}
-	public java.util.Date getDate() {
-		return date;
+	public Date getDate() {
+		return this.date;
 	}
-	public void setDate(java.util.Date date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
-	/**
-	 * Get  get Html description with all portfolio details
-	 */
-	public String getHtmlDescription(){
-		String dateStr = dateFt.format(date);
-		String result = new String("<b> Stock symbol is: </b>" + getSymbol()+"<b> ask: </b>"+getAsk() +"<b> Bid: </b>"+getBid()+"<b> Date: </b>"+ dateStr);
-		return result;
-	}
 
-	public ALGO_RECOMMENDATION getRecommendation() {
-		return recommendation;
-	}
-
-	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
-		this.recommendation = recommendation;
-	}
-
-	public int getStockQuantity() {
-		return stockQuantity;
-	}
-
-	public void setStockQuantity(int stockQuantity) {
-		this.stockQuantity = stockQuantity;
-	}
-
-}
 	
+}
