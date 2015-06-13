@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import org.algo.service.ServiceManager;
 
 import com.mta.javastock.service.PortfolioManager;
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class InitServlet extends javax.servlet.http.HttpServlet {
 
 	public void init() throws ServletException {

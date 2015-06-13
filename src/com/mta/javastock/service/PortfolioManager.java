@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mta.javastock.exception.BalanceException;
+import com.mta.javastock.exception.PortfolioFullException;
+import com.mta.javastock.exception.StockAlreadyExistsException;
+import com.mta.javastock.exception.StockNotExistException;
 import com.mta.javastock.model.Portfolio;
 import com.mta.javastock.model.Stock;
 
@@ -124,7 +128,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 * Add stock to portfolio 
 	 */
 	@Override
-	public void addStock(String symbol) {
+	public void addStock(String symbol) throws PortfolioFullException, StockAlreadyExistsException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
 
 		try {
@@ -271,11 +275,10 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 * @param portfolio		Portfolio to copy.
 	 * @return a new Portfolio object with the same values as the one given.
 	 */
-	public Portfolio duplicatePortfolio(Portfolio portfolio) {
+	public Portfolio duplicatePortfolio(Portfolio portfolio) throws PortfolioFullException, StockAlreadyExistsException {
 		Portfolio copyPortfolio = new Portfolio(portfolio);
 		return copyPortfolio;
 	}
-
 	/**
 	 * Set portfolio title
 	 */
@@ -289,9 +292,9 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 * Sell stock
 	 */
 	@Override
-	public void sellStock(String symbol, int quantity) throws PortfolioException {
+	public void sellStock(String symbol, int quantity) throws PortfolioException, StockNotExistException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
-		portfolio.sellStock(symbol, quantity);
+			portfolio.sellStock(symbol, quantity);
 		flush(portfolio);
 	}
 
@@ -299,7 +302,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 * Remove stock
 	 */
 	@Override
-	public void removeStock(String symbol) { 
+	public void removeStock(String symbol) throws StockNotExistException{ 
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		portfolio.removeStock(symbol);
 		flush(portfolio);
@@ -308,7 +311,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	/**
 	 * update portfolio balance
 	 */
-	public void updateBalance(float value) { 
+	public void updateBalance(float value) throws BalanceException{ 
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		portfolio.updateBalance(value);
 		flush(portfolio);

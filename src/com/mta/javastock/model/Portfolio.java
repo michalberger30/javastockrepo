@@ -2,6 +2,10 @@ package com.mta.javastock.model;
 import org.algo.model.PortfolioInterface;
 import org.algo.model.StockInterface;
 
+import com.mta.javastock.exception.BalanceException;
+import com.mta.javastock.exception.PortfolioFullException;
+import com.mta.javastock.exception.StockAlreadyExistsException;
+import com.mta.javastock.exception.StockNotExistException;
 import com.mta.javastock.model.Stock;
 
 /**
@@ -25,7 +29,7 @@ public class Portfolio implements PortfolioInterface{
 		this.stocks = new Stock[MAX_PORTFOLIO_SIZE];
 	
 	}
-	public Portfolio(Portfolio pf){
+	public Portfolio(Portfolio pf) throws PortfolioFullException, StockAlreadyExistsException{
 		this.portfolioSize = pf.getPortfolioSize();
 		this.title = new String(pf.getTitle());
 		
@@ -48,7 +52,7 @@ public class Portfolio implements PortfolioInterface{
 	 * @param stock
 	 */
 
-	public void addStock(Stock stock)
+	public void addStock(Stock stock) throws PortfolioFullException, StockAlreadyExistsException
 	{
 		
 		if(this.getPortfolioSize() == (MAX_PORTFOLIO_SIZE-1))
@@ -61,8 +65,7 @@ public class Portfolio implements PortfolioInterface{
 			{
 				if(stock.getSymbol().equals(stocks[i].getSymbol()))
 				{
-					System.out.println("This stock already exists");
-					return;
+					throw new StockAlreadyExistsException();
 				}
 			}
 				
@@ -81,7 +84,7 @@ public class Portfolio implements PortfolioInterface{
 	 * 
 	 * @param symbol
 	 */
-	public boolean removeStock(String symbol)
+	public void removeStock(String symbol)throws StockNotExistException
 	{
 		boolean flag = false;
 		int j = 0;
@@ -97,15 +100,14 @@ public class Portfolio implements PortfolioInterface{
 			}
 		}
 		if(flag == false)
-			return flag;
+			throw new StockNotExistException();
 		
-		while (j <= portfolioSize && portfolioSize > 0)
+		while (j < portfolioSize && portfolioSize > 0 && j != MAX_PORTFOLIO_SIZE-1)
 		{
 		stocks[j] = stocks[j+1];
 		j++;
 		}
 		portfolioSize--;
-		return flag;
 	}
 	/**
 	 * This method buys a specific stock and if it doesn't exist adds it to the portfolio.
@@ -113,7 +115,7 @@ public class Portfolio implements PortfolioInterface{
 	 * @param stock
 	 * @param quantity
 	 */
-	public boolean buyStock(Stock stock, int quantity)
+	public void buyStock(Stock stock, int quantity) throws PortfolioFullException, BalanceException, StockAlreadyExistsException
 	{
 		boolean isOk = false;
 		boolean flag = false;
@@ -146,7 +148,7 @@ public class Portfolio implements PortfolioInterface{
 				{
 					if(quantity * stock.getAsk() > this.balance)
 					{
-						System.out.println("Not enough balance to complete purchase");
+						throw new BalanceException();
 					}
 		
 					else
@@ -158,7 +160,9 @@ public class Portfolio implements PortfolioInterface{
 				}
 			}	
 	}
-		return isOk;
+		if(!isOk){
+			throw new PortfolioFullException();
+		}
 	}
 	/**
 	 * This method sells a specific stock by his symbol.
@@ -166,7 +170,7 @@ public class Portfolio implements PortfolioInterface{
 	 * @param symbol
 	 * @param quantity
 	 */
-	public boolean sellStock(String symbol, int quantity)
+	public  void sellStock(String symbol, int quantity) throws StockNotExistException
 	{
 		boolean flag = false;
 		int j = 0;
@@ -195,7 +199,9 @@ public class Portfolio implements PortfolioInterface{
 			this.stocks[j].setStockQuantity(0);
 			flag = true;
 		}
-		return flag;
+		if (!flag){
+			throw new StockNotExistException();
+		}
 	}
 	/**
 	 * This method returns the total value of portfolio's stocks.
@@ -242,7 +248,7 @@ public class Portfolio implements PortfolioInterface{
 	 * This method updates the balance by adding amount to the current balance.
 	 * @param amount
 	 */
-	public void updateBalance(float amount){
+	public  void updateBalance(float amount) throws BalanceException{
 		if(amount < 0 && this.balance + amount < 0){
 			System.out.println("this amount is illegal");
 		}
